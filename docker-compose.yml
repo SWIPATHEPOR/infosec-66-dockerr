@@ -1,38 +1,37 @@
-version : '3'
+version: '3'
 
-services :
-  db :
-    container_name: porpor-db
+services:
+  db:
+    container_name: 'porpor-postgres'
+    image: 'postgres:latest'
     ports:
       - 54321:5432
     environment:
       - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD={DB_PASS}
-    image: postgres:14.4
-    restart: unless-stopped
-
-  pgadmin :
-    container_name :porpor-pgadmin
+      - POSTGRES_PASSWORD=${DB_PASS}
+    restart: 'unless-stopped'
+    
+  pgadmin:
+    container_name: 'porpor-pgadmin'
+    image: 'dpage/pgadmin4:latest'
     ports:
-      - 4433:443
       - 8080:80
-    environment :
+    environment:
       - PGADMIN_DEFAULT_EMAIL=${PG_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PG_PASS}
-    image : dpage/pgadmin4:latest
-    restart : unless-stopped
-
-  strapi :
-    container_name : porpor-strapi
+    restart: 'unless-stopped'
+  
+  strapi:
+    container_name: 'porpor-strapi'
+    image: 'naskio/strapi:latest'
     ports:
       - 1337:1337
-    environment :
-      - DATABASE_CLIENT=${Strapi_CLIENT}
-      - DATABASE_PORT=${Strapi_PORT}
-      - DATABASE_NAME=${Strapi_NAME}
-      - DATABASE_HOST=${Strapi_HOST}
-      - DATABASE_USERNAME=${Strapi_USER}
-      - DATABASE_PASSWORD=${Strapi_PASS}
-      - DATABASE_SSL=${Strapi_SSL}
-    image: 'naskio/strapi:latest'  
-    restart: 'unless-stopped' 
+    environment:
+      - DATABASE_CLIENT=${STRAPI_CLIENT}
+      - DATABASE_HOST=${STRAPI_HOST}
+      - DATABASE_PORT=${STRAPI_PORT}
+      - DATABASE_NAME=${STRAPI_NAME}
+      - DATABASE_USERNAME=${STRAPI_USERNAME}
+      - DATABASE_PASSWORD=${STRAPI_PASSWORD}
+      - DATABASE_SSL=${STRAPI_SSL}
+    restart: 'unless-stopped'
